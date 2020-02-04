@@ -7,19 +7,18 @@ namespace ToDoList_Application
     {
         static void Main(string[] args)
         {
-            string userInput = Console.ReadLine();   //declares that userInput equals what the user types
-
 
             Console.WriteLine("What would you like to do?\n" +
-                                "A = Add Task, S = Skip, F = Finish / Complete, FL = Finish Later"); 
-            
-            //Very first thing to display. Need userInput
+                                "A = Add Task, S = Skip, F = Finish / Complete, FL = Finish Later");
 
-            Console.ReadLine();                     //Pulls userInput
+                                                                //Very first thing to display. Need userInput
 
-            if (userInput == "A")                   //will analyze what the user input and call method based on their command (A, S, F, etc.)
+            string userInput = Console.ReadLine();              //declares that userInput equals what the user types
+            List<string> toDoList = new List<string>();
+
+            if (userInput == "A")                               //will analyze what the user input and call method based on their command (A, S, F, etc.)
             {
-                AddString();
+                toDoList = AddString(toDoList);
             }
             else if (userInput == "S")
             {
@@ -62,13 +61,18 @@ namespace ToDoList_Application
             throw new NotImplementedException();
         }
 
-        private static void AddString()
+        private static List<string> AddString(List<string> toDoList)
         {
-            List<string> ToDoList = new List<string>();
-            string userInput = Console.ReadLine();
+            Console.WriteLine("Type New Task:");                //After "A" is input, asks this question. 
+            
+            string userInput = Console.ReadLine();              //declares userInput as whatever the user types in
+                     //declares ToDoList as a "List"
 
-            ToDoList.Add(userInput + "\n");
+            toDoList.Add(userInput + "\n");                     //declares that ToDoList must add userInput to list and move to new line
 
+            Console.WriteLine(toDoList);                        //display ToDoList
+            return toDoList;
+    
 
         }
     }
