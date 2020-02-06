@@ -1,8 +1,8 @@
-﻿using System;
+﻿//hours: Tues(3) + Wed(3) + Thurs(3)
+
+using System;
 using System.Linq;
 using System.Collections.Generic;
-
-
 
 namespace ToDoList_Application
 {
@@ -11,6 +11,9 @@ namespace ToDoList_Application
         public static List<string> toDoList = new List<string> { };
         static void Main(string[] args)
         {
+          
+            var currentIndex = 0;
+
             do
             {
                 Menu();
@@ -22,38 +25,83 @@ namespace ToDoList_Application
                     Console.WriteLine("Type New Task:");                //After "A" is input, asks this question. 
 
                     Add();
-                    
-                    Console.Clear();
 
-                    for (int i = 0; i < toDoList.Count; i++)
-                    {
-                        Highlight();
-
-                        Console.WriteLine(toDoList[i]);
-
-                        StopHightlighting();
-                    }
+                    ClearWriteHighlight(currentIndex);
                 }
-                //else if (userInput == "S")
-                //{
-                //    Skip();
-                //}
-                //else if (userInput == "F")
-                //{
-                //    Finish();
-                //}
-                //else if (userInput == "FL")
-                //{
-                //    FinishLater();
-                //}
+
+                else if (userInput == "S")
+                {
+                    currentIndex = Skip(currentIndex);
+
+                    ClearWriteHighlight(currentIndex);
+
+                }
+
+                else if (userInput == "FL")
+                {
+                    toDoList.Add(toDoList[currentIndex]);
+
+                    toDoList.RemoveAt(currentIndex);
+
+                    ClearWriteHighlight(currentIndex);
+                }
+
+                else if (userInput == "F")
+                {
+                    if (currentIndex > 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                    }
+                    else
+                    {
+                        toDoList.RemoveAt(currentIndex);
+                    }
+                    ClearWriteHighlight(currentIndex);
+                }
+
                 else                                                //Catch for invalid command
                 {
                     Console.WriteLine("Command Not Recognized");
                 }   
+
             } while (true);
-            //Remove();
-        
-            
+        }
+
+        private static void ClearWriteHighlight(int currentIndex)
+        {
+            Console.Clear();
+
+            for (int i = 0; i < toDoList.Count; i++)
+            {
+                if (i == currentIndex)
+                {
+                    
+                    Highlight();
+
+                    Console.WriteLine(toDoList[i]);
+
+                    StopHightlighting();
+                }
+
+                else
+                {
+                    Console.WriteLine(toDoList[i]);
+                }
+
+            }
+        }
+
+        private static int Skip(int currentIndex)
+        {
+            if (currentIndex == toDoList.Count - 1)
+            {
+                currentIndex = 0;
+            }
+            else
+            {
+                ++currentIndex;
+            }
+            return currentIndex;
         }
 
         private static void StopHightlighting()
@@ -64,10 +112,10 @@ namespace ToDoList_Application
 
         private static void Highlight()
         {
+            
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
 
-            //Console.WriteLine('\n');
         }
 
         private static void Add()
@@ -82,24 +130,5 @@ namespace ToDoList_Application
                                 "A = Add Task, S = Skip, F = Finish / Complete, FL = Finish Later");
             
         }
-        //private static void Remove()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //private static void FinishLater()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //private static void Finish()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //private static void Skip()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
